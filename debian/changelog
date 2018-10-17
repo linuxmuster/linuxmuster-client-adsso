@@ -2,7 +2,7 @@ linuxmuster-client-adsso (0.1.3-0ubuntu0) bionic; urgency=low
 
   * fix dhcp infos.
 
- -- Thomas Schmitt <thomas@linuxmuster.net>  Wed, 17 Oct 2018 20:57:32 +0200
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Wed, 17 Oct 2018 23:12:32 +0200
 
 linuxmuster-client-adsso (0.1.2-0ubuntu0) bionic; urgency=low
 
