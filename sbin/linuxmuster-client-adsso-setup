@@ -38,9 +38,10 @@ print('Trying to get DHCP information:')
 
 iface = output("nmcli -t c | grep ethernet | head -1 | awk -F\: '{ print $4 }'")
 serverip = output("nmcli -f IP4.DNS device show " + iface + " | head -1 | awk '{ print $2 }'")
-domainname = output("dnsdomainname")
+hostip = output("nmcli -f IP4.ADDRESS device show " + iface + " | head -1 | awk '{ print $2 }'").split('/')[0]
+domainname = output("nmcli -f IP4.DOMAIN device show " + iface + " | head -1 | awk '{ print $2 }'")
 servername = output("host " + serverip + " | awk '{ print $5}'").split('.')[0]
-hostname = output("hostname | awk -F\. '{ print $1}'")
+hostname = output("host " + hostip + " " + serverip + " | grep 'in-addr.arpa' | awk '{ print $5}'").split('.')[0]
 sambadomain = domainname.split('.')[0].upper()
 realm = domainname.upper()
 
