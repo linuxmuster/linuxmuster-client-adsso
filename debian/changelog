@@ -1,0 +1,17 @@
+linuxmuster-client-adsso (0.1.2-0ubuntu0) bionic; urgency=low
+
+  * fix templates path.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Wed, 17 Oct 2018 20:57:32 +0200
+
+linuxmuster-client-adsso (0.1.1-0ubuntu0) bionic; urgency=low
+
+  * fix variable name.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Wed, 17 Oct 2018 20:40:05 +0200
+
+linuxmuster-client-adsso (0.1.0-0ubuntu0) bionic; urgency=low
+
+  * initial commit.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Wed, 17 Oct 2018 20:40:05 +0200

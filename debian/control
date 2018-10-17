@@ -1,0 +1,13 @@
+Source: linuxmuster-client-adsso
+Section: linuxmuster
+Priority: optional
+Maintainer: Thomas Schmitt <thomas@linuxmuster.net>
+Build-Depends: debhelper (>= 5.0.0)
+Standards-Version: 5.0.0
+
+Package: linuxmuster-client-adsso
+Architecture: all
+Depends: python3, bind9-host, network-manager, krb5-user, samba, sssd, libpam-mount, chrony
+Description: linuxmuster.net client configuration scripts for ad sso
+ This package provides configuration scripts for ubuntu clients, which configures
+ single sign on against a linuxmuster.net 7 samba 4 active directory server.

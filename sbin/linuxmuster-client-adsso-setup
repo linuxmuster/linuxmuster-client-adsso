@@ -1,0 +1,116 @@
+#!/usr/bin/python3
+#
+# /usr/sbin/linuxmuster-client-adsso-setup
+#
+# thomas@linuxmuster.net
+# 20181017
+#
+
+import codecs
+import os
+import sys
+from subprocess import PIPE, run
+
+
+## functions - begin
+
+def output(command):
+    result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
+    return result.stdout.replace('\n','')
+    # return content of text file
+
+def readTextfile(tfile):
+    if not os.path.isfile(tfile):
+        return False, None
+    try:
+        infile = codecs.open(tfile ,'r', encoding='utf-8', errors='ignore')
+        content = infile.read()
+        infile.close()
+        return True, content
+    except:
+        print('Cannot read ' + tfile + '!')
+        return False, None
+
+## functions - end
+
+
+print('Trying to get DHCP information:')
+
+iface = output("nmcli -t c | grep ethernet | head -1 | awk -F\: '{ print $4 }'")
+serverip = output("nmcli -f IP4.DNS device show " + iface + " | head -1 | awk '{ print $2 }'")
+domainname = output("dnsdomainname")
+servername = output("host " + serverip + " | awk '{ print $5}'").split('.')[0]
+hostname = output("hostname | awk -F\. '{ print $1}'")
+sambadomain = domainname.split('.')[0].upper()
+realm = domainname.upper()
+
+print('Hostname: ' + hostname + '.' + domainname)
+print('Servername: ' + servername + '.' + domainname)
+print('REALM: ' + realm)
+
+if domainname == '':
+    print('Cannot determine domainname!')
+    sys.exit(1)
+
+if servername == '':
+    print('Cannot determine servername!')
+    sys.exit(1)
+
+if hostname == '':
+    print('Cannot determine hostname!')
+    sys.exit(1)
+
+
+print('Processing configuration templates:')
+
+tpldir = '/usr/share/linuxmuster-client-adsso/templates'
+for f in os.listdir(tpldir):
+    source = tpldir + '/' + f
+    print('* ' + f)
+    try:
+        # read template file
+        rc, filedata = readTextfile(source)
+        # replace placeholders with values
+        filedata = filedata.replace('@@hostname@@', hostname)
+        filedata = filedata.replace('@@servername@@', servername)
+        filedata = filedata.replace('@@domainname@@', domainname)
+        filedata = filedata.replace('@@realm@@', realm)
+        filedata = filedata.replace('@@sambadomain@@', sambadomain)
+        # get target path
+        firstline = filedata.split('\n')[0]
+        target = firstline.partition(' ')[2]
+        # create target directory
+        os.system('mkdir -p ' + os.path.dirname(target))
+        with open(target, 'w') as outfile:
+            outfile.write(filedata)
+    except:
+        print(' Failed!')
+        sys.exit(1)
+
+# write hosts file
+with open('/etc/hosts', 'w') as outfile:
+    outfile.write(hostname + '.' + domainname)
+
+
+print('Restarting services:')
+services = ['chrony', 'smbd', 'nmbd', 'sssd']
+for service in services:
+    os.system('systemctl stop ' + service + '.service')
+    os.system('systemctl enable ' + service + '.service')
+    os.system('systemctl start ' + service + '.service')
+
+
+print('Joining domain ' + sambadomain + '. Note that you have to input the password of the global-admin.')
+try:
+    os.system('kinit global-admin')
+except:
+    print('Failed!')
+    sys.exit(1)
+try:
+    os.system('net ads join --no-dns-updates -k')
+except:
+    print('Failed!')
+    sys.exit(1)
+
+
+print('Done!')
