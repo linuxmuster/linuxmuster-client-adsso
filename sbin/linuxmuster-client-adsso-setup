@@ -3,7 +3,7 @@
 # /usr/sbin/linuxmuster-client-adsso-setup
 #
 # thomas@linuxmuster.net
-# 20181017
+# 20181018
 #
 
 import codecs
@@ -88,9 +88,15 @@ for f in os.listdir(tpldir):
         print(' Failed!')
         sys.exit(1)
 
+# set permissions on sssd.conf
+os.system('chmod 600 /etc/sssd/sssd.conf')
+
 # write hosts file
 with open('/etc/hosts', 'w') as outfile:
     outfile.write(hostname + '.' + domainname)
+
+# enable necessary pam modules
+os.system('pam-auth-update --enable libpam-mount mkhomedir pwquality sss --force')
 
 
 print('Restarting services:')
@@ -114,4 +120,4 @@ except:
     sys.exit(1)
 
 
-print('Done!')
+print('Done! Now restart the client, please.')
