@@ -1,3 +1,13 @@
+linuxmuster-client-adsso (0.2.0-0ubuntu0) bionic; urgency=low
+
+  * added pam mount configuration.
+  * moved local home dir to /home/user.
+  * added cifs-utils and hxtools to dependencies.
+  * added gdm login script.
+  * added environment with proxy address.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Fri, 19 Oct 2018 23:14:40 +0200
+
 linuxmuster-client-adsso (0.1.4-0ubuntu0) bionic; urgency=low
 
   * added pam-auth-update.

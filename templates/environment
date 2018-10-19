@@ -1,0 +1,9 @@
+# /etc/environment
+#
+# thomas@linuxmuster.net
+# 20181019
+#
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+http_proxy="http://firewall.@@domainname@@:3128"
+https_proxy="http://firewall.@@domainname@@:3128"
+ftp_proxy="http://firewall.@@domainname@@:3128"

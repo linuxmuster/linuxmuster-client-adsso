@@ -3,22 +3,25 @@
 # /usr/sbin/linuxmuster-client-adsso-setup
 #
 # thomas@linuxmuster.net
-# 20181018
+# 20181019
 #
 
 import codecs
 import os
+import re
 import sys
 from subprocess import PIPE, run
 
 
 ## functions - begin
 
+# get output of system command
 def output(command):
     result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
     return result.stdout.replace('\n','')
     # return content of text file
 
+# read textfile in variable
 def readTextfile(tfile):
     if not os.path.isfile(tfile):
         return False, None
@@ -30,6 +33,19 @@ def readTextfile(tfile):
     except:
         print('Cannot read ' + tfile + '!')
         return False, None
+
+# remove lines beginning with #
+def stripComment(filedata):
+    filedata_stripped = ''
+    for line in filedata.split('\n'):
+        if line[:1] == '#':
+            continue
+        else:
+            if filedata_stripped == '':
+                filedata_stripped = line
+            else:
+                filedata_stripped = filedata_stripped + '\n' + line
+    return filedata_stripped
 
 ## functions - end
 
@@ -82,8 +98,18 @@ for f in os.listdir(tpldir):
         target = firstline.partition(' ')[2]
         # create target directory
         os.system('mkdir -p ' + os.path.dirname(target))
+        # remove comment lines beginning with # from .xml files
+        if target.endswith('.xml'):
+            filedata = stripComment(filedata)
+        # remove target path from shebang line
+        if '#!/bin/sh' in firstline:
+            filedata = filedata.replace(' ' + target, '')
+        # write config file
         with open(target, 'w') as outfile:
             outfile.write(filedata)
+        # make bash scripts executable
+        if '#!/bin/sh' in firstline:
+            os.system('chmod +x ' + target)
     except:
         print(' Failed!')
         sys.exit(1)
@@ -97,6 +123,9 @@ with open('/etc/hosts', 'w') as outfile:
 
 # enable necessary pam modules
 os.system('pam-auth-update --enable libpam-mount mkhomedir pwquality sss --force')
+
+# path for sysvol share
+os.system('mkdir -p /var/lib/samba/sysvol')
 
 
 print('Restarting services:')
