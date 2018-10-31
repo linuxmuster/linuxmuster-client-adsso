@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# linuxmuster-distupgrade
+# thomas@linuxmuster.net
+# 20181031
+#
+
+apt update && apt -y dist-upgrade && apt clean && apt -y autoremove

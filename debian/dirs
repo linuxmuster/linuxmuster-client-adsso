@@ -1,1 +1,3 @@
-usr/share/linuxmuster-client-adsso/templates
+usr/share/linuxmuster-client-adsso/bin/
+usr/share/linuxmuster-client-adsso/templates/
+var/lib/linuxmuster-client-adsso/

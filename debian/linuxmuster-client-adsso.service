@@ -1,0 +1,13 @@
+[Unit]
+Description=linuxmuster: switch local and remote home depending on ad server connection
+After=network-online.target
+Before=sssd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/share/linuxmuster-client-adsso/bin/on_boot.sh
+
+[Install]
+WantedBy=multi-user.target
+Alias=adsso.service

@@ -1,2 +1,4 @@
-sbin/*		    usr/sbin/
-templates/*		usr/share/linuxmuster-client-adsso/templates/
+debian/*.service  etc/systemd/system/
+sbin/*		        usr/sbin/
+bin/*             usr/share/linuxmuster-client-adsso/bin/
+templates/*		    usr/share/linuxmuster-client-adsso/templates/

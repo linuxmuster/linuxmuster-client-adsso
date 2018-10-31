@@ -1,9 +1,0 @@
-#!/bin/sh /etc/gdm3/PostLogin/Default
-#
-# thomas@linuxmuster.net
-# 20181019
-# invoke login script
-#
-
-loginscript="/var/lib/samba/sysvol/$(dnsdomainname)/scripts/linux/login.sh"
-[ -x "$loginscript" ] && "$loginscript" "$HOME" || true

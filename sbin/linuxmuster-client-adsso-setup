@@ -3,7 +3,7 @@
 # /usr/sbin/linuxmuster-client-adsso-setup
 #
 # thomas@linuxmuster.net
-# 20181019
+# 20181031
 #
 
 import codecs
@@ -11,6 +11,10 @@ import os
 import re
 import sys
 from subprocess import PIPE, run
+
+# variables
+postlogin_script = '/usr/share/linuxmuster-client-adsso/bin/login.sh'
+gdm3_postlogin_dir = '/etc/gdm3/PostLogin'
 
 
 ## functions - begin
@@ -50,16 +54,19 @@ def stripComment(filedata):
 ## functions - end
 
 
-print('Trying to get DHCP information:')
+print('Trying to get network information:')
 
 iface = output("nmcli -t c | grep ethernet | head -1 | awk -F\: '{ print $4 }'")
 serverip = output("nmcli -f IP4.DNS device show " + iface + " | head -1 | awk '{ print $2 }'")
-hostip = output("nmcli -f IP4.ADDRESS device show " + iface + " | head -1 | awk '{ print $2 }'").split('/')[0]
+address = output("nmcli -f IP4.ADDRESS device show " + iface + " | head -1 | awk '{ print $2 }'")
+hostip = address.split('/')[0]
+network = output("ipcalc " + address + " | grep ^Network | awk '{ print $2 }'")
 domainname = output("nmcli -f IP4.DOMAIN device show " + iface + " | head -1 | awk '{ print $2 }'")
 servername = output("host " + serverip + " | awk '{ print $5}'").split('.')[0]
 hostname = output("host " + hostip + " " + serverip + " | grep 'in-addr.arpa' | awk '{ print $5}'").split('.')[0]
 sambadomain = domainname.split('.')[0].upper()
 realm = domainname.upper()
+proxy_url = 'http://firewall.' + domainname + ':3128'
 
 print('Hostname: ' + hostname + '.' + domainname)
 print('Servername: ' + servername + '.' + domainname)
@@ -88,9 +95,12 @@ for f in os.listdir(tpldir):
         # read template file
         rc, filedata = readTextfile(source)
         # replace placeholders with values
+        filedata = filedata.replace('@@network@@', network)
         filedata = filedata.replace('@@hostname@@', hostname)
+        filedata = filedata.replace('@@serverip@@', serverip)
         filedata = filedata.replace('@@servername@@', servername)
         filedata = filedata.replace('@@domainname@@', domainname)
+        filedata = filedata.replace('@@proxy_url@@', proxy_url)
         filedata = filedata.replace('@@realm@@', realm)
         filedata = filedata.replace('@@sambadomain@@', sambadomain)
         # get target path
@@ -114,11 +124,28 @@ for f in os.listdir(tpldir):
         print(' Failed!')
         sys.exit(1)
 
+
+# add gdm3 postlogin
+if os.path.isdir(gdm3_postlogin_dir):
+    gdm3_postlogin_default = gdm3_postlogin_dir + '/Default'
+    gdm3_postlogin_ex = gdm3_postlogin_default + '.sample'
+    if os.path.isfile(gdm3_postlogin_default):
+        rc, filedata = readTextfile(gdm3_postlogin_default)
+    elif os.path.isfile(gdm3_postlogin_ex):
+        rc, filedata = readTextfile(gdm3_postlogin_ex)
+    else:
+        filedata = '#!/bin/sh\n'
+    if not postlogin_script in filedata:
+        filedata = filedata + '\n# linuxmuster.net ad login\n' + postlogin_script
+        with open(gdm3_postlogin_default, 'w') as outfile:
+            outfile.write(filedata)
+        os.system('chmod +x ' + gdm3_postlogin_default)
+
 # set permissions on sssd.conf
 os.system('chmod 600 /etc/sssd/sssd.conf')
 
-# write hosts file
-with open('/etc/hosts', 'w') as outfile:
+# write hostname file
+with open('/etc/hostname', 'w') as outfile:
     outfile.write(hostname + '.' + domainname)
 
 # enable necessary pam modules
@@ -127,6 +154,16 @@ os.system('pam-auth-update --enable libpam-mount mkhomedir pwquality sss --force
 # path for sysvol share
 os.system('mkdir -p /var/lib/samba/sysvol')
 
+# sudo for global-admin
+config = '/etc/sudoers.d/global-admin'
+content = 'global-admin ALL=NOPASSWD: ALL'
+os.system('mkdir -p ' + os.path.dirname(config))
+with open(config, 'w') as outfile:
+    outfile.write(content)
+os.system('chmod 400 ' + config)
+
+# enable switch-sssd.service
+os.system('systemctl enable linuxmuster-client-adsso.service')
 
 print('Restarting services:')
 services = ['chrony', 'smbd', 'nmbd', 'sssd']
