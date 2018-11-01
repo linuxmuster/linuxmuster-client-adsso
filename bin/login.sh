@@ -6,22 +6,24 @@
 #
 
 # read setup values
-source /usr/share/linuxmuster-client-adsso/bin/read_ini.sh || exit 1
-
-# test if ad login was successfull if not leave
-host "$servername.$domainname" | grep -q "$serverip" || exit 0
-
-# sysvol path
+source /usr/share/linuxmuster-client-adsso/bin/readvars.sh || exit 1
 ad_sysvol_path="/var/lib/samba/sysvol/$ad_domain"
-if [ ! -d "$ad_sysvol_path" ]; then
-  echo "$ad_domain is not the ad domain!"
-  exit 0
+
+# test ad connection
+host "$servername.$ad_domain" | grep -q "$serverip" && ad_connected="yes"
+
+# source login hookdir
+if ls "$login_hookdir"/*.sh &> /dev/null; then
+  for i in "$login_hookdir"/*.sh; do
+    echo "Executing $i ..."
+    source "$i"
+  done
 fi
 
-# invoke serverside login script if present
+# finally source serverside login script if present
 loginscript="$ad_sysvol_path/scripts/linux/login.script"
-if [ -x "$loginscript" ]; then
-  echo "Invoking login script $loginscript ..."
+if [ -e "$loginscript" ]; then
+  echo "Sourcing login script $loginscript ..."
   echo
-  "$loginscript" || true
+  source "$loginscript" || true
 fi

@@ -1,3 +1,17 @@
+linuxmuster-client-adsso (0.3.0-0ubuntu0) bionic; urgency=low
+
+  * changed cifs mount to kerberos authentication.
+  * added handling of server certificate.
+  * smb.conf modifications due to certificate handling.
+  * added onboot and login script hook dirs.
+  * added login scripts to handle users share folders.
+  * added lightdm configuration.
+  * script names consolidation.
+  * added pam krb5 plugin.
+  * beautify setup console output.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Thu, 01 Nov 2018 11:17:22 +0100
+
 linuxmuster-client-adsso (0.2.1-0ubuntu0) bionic; urgency=low
 
   * fix hostname file.

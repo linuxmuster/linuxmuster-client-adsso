@@ -7,7 +7,7 @@
 #
 
 # read setup values
-source /usr/share/linuxmuster-client-adsso/bin/read_ini.sh || exit 1
+source /usr/share/linuxmuster-client-adsso/bin/readvars.sh || exit 1
 
 if [ ! -s "$sssd_conf" ]; then
   echo "$sssd_conf does not exist or is not valid!"
@@ -15,19 +15,19 @@ if [ ! -s "$sssd_conf" ]; then
 fi
 
 # test ad connection
-host "$servername.$domainname" | grep -q "$serverip" && ad_connect="yes"
+host "$servername.$ad_domain" | grep -q "$serverip" && ad_connected="yes"
 
 # if ad connection is present
-if [ -n "$ad_connect" ]; then
+if [ -n "$ad_connected" ]; then
   # switch sssd configuration to ad connected
-  echo "Connected to ad server $servername.$domainname."
+  echo "Connected to ad server $servername.$ad_domain."
   # remove option if resent in config
   if grep -q ^"$homedir_option" "$sssd_conf"; then
     echo "Removing $homedir_option from $sssd_conf."
     sed -i "/^$homedir_option/ d" "$sssd_conf"
   fi
   # set proxy profile
-  if [ -n "$proxy_profile" -a -n "$proxy_template" ]; then
+  if [ -n "$proxy_url" -a -n "$proxy_profile" -a -n "$proxy_template" ]; then
     echo "Creating proxy environment."
     sed -e "s|@@network@@|$network|
             s|@@domainname@@|$ad_domain|
@@ -35,7 +35,7 @@ if [ -n "$ad_connect" ]; then
   fi
 else
   # local mode
-  echo "Not connected to ad server $servername.$domainname!"
+  echo "Not connected to ad server $servername.$ad_domain!"
   # switch sssd configuration to local only
   if grep -q ^"$homedir_option" "$sssd_conf"; then
     echo "Changing $homedir_option to $homedir_value in $sssd_conf."
@@ -49,6 +49,15 @@ else
     echo "Removing proxy environment."
     rm -f "$proxy_profile"
   fi
+fi
+
+# source onboot hookdir
+if ls "$onboot_hookdir"/*.sh &> /dev/null; then
+  echo "Sourcing onboot hookdir:"
+  for i in "$onboot_hookdir"/*.sh; do
+    echo "* $(basename $i) ..."
+    source "$i"
+  done
 fi
 
 exit 0

@@ -3,7 +3,7 @@
 # /usr/sbin/linuxmuster-client-adsso-setup
 #
 # thomas@linuxmuster.net
-# 20181031
+# 20181101
 #
 
 import codecs
@@ -11,10 +11,6 @@ import os
 import re
 import sys
 from subprocess import PIPE, run
-
-# variables
-postlogin_script = '/usr/share/linuxmuster-client-adsso/bin/login.sh'
-gdm3_postlogin_dir = '/etc/gdm3/PostLogin'
 
 
 ## functions - begin
@@ -24,6 +20,10 @@ def output(command):
     result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
     return result.stdout.replace('\n','')
     # return content of text file
+
+# print with or without linefeed
+def printr(msg):
+    print(msg, end='', flush=True)
 
 # read textfile in variable
 def readTextfile(tfile):
@@ -53,6 +53,7 @@ def stripComment(filedata):
 
 ## functions - end
 
+print('\n#### linuxmuster-client-adsso-setup ####\n')
 
 print('Trying to get network information:')
 
@@ -85,7 +86,7 @@ if hostname == '':
     sys.exit(1)
 
 
-print('Processing configuration templates:')
+print('\nProcessing configuration templates:')
 
 tpldir = '/usr/share/linuxmuster-client-adsso/templates'
 for f in os.listdir(tpldir):
@@ -112,68 +113,68 @@ for f in os.listdir(tpldir):
         if target.endswith('.xml'):
             filedata = stripComment(filedata)
         # remove target path from shebang line
-        if '#!/bin/sh' in firstline:
-            filedata = filedata.replace(' ' + target, '')
+        if '#!/bin/sh' in firstline or '#!/bin/bash' in firstline:
+            filedata = filedata.replace(' ' + target, '\n# ' + target)
+            xbit = True
+        else:
+            xbit = False
         # write config file
         with open(target, 'w') as outfile:
             outfile.write(filedata)
         # make bash scripts executable
-        if '#!/bin/sh' in firstline:
+        if xbit:
             os.system('chmod +x ' + target)
     except:
         print(' Failed!')
         sys.exit(1)
 
 
-# add gdm3 postlogin
-if os.path.isdir(gdm3_postlogin_dir):
-    gdm3_postlogin_default = gdm3_postlogin_dir + '/Default'
-    gdm3_postlogin_ex = gdm3_postlogin_default + '.sample'
-    if os.path.isfile(gdm3_postlogin_default):
-        rc, filedata = readTextfile(gdm3_postlogin_default)
-    elif os.path.isfile(gdm3_postlogin_ex):
-        rc, filedata = readTextfile(gdm3_postlogin_ex)
-    else:
-        filedata = '#!/bin/sh\n'
-    if not postlogin_script in filedata:
-        filedata = filedata + '\n# linuxmuster.net ad login\n' + postlogin_script
-        with open(gdm3_postlogin_default, 'w') as outfile:
-            outfile.write(filedata)
-        os.system('chmod +x ' + gdm3_postlogin_default)
-
 # set permissions on sssd.conf
+printr('\nSetting sssd.conf permissions ... ')
 os.system('chmod 600 /etc/sssd/sssd.conf')
+print('Done!')
 
 # write hostname file
+printr('Writing hostname ... ')
 with open('/etc/hostname', 'w') as outfile:
     outfile.write(hostname + '.' + domainname)
+print('Done!')
 
 # enable necessary pam modules
-os.system('pam-auth-update --enable libpam-mount mkhomedir pwquality sss --force')
+printr('Updating pam authentication ... ')
+os.system('pam-auth-update --enable krb5 libpam-mount mkhomedir pwquality sss --force')
+print('Done!')
 
 # path for sysvol share
+printr('Creating sysvol folder ... ')
 os.system('mkdir -p /var/lib/samba/sysvol')
+print('Done!')
 
 # sudo for global-admin
+printr('Sudo for global-admin ... ')
 config = '/etc/sudoers.d/global-admin'
 content = 'global-admin ALL=NOPASSWD: ALL'
 os.system('mkdir -p ' + os.path.dirname(config))
 with open(config, 'w') as outfile:
     outfile.write(content)
 os.system('chmod 400 ' + config)
+print('Done!')
 
 # enable switch-sssd.service
+printr('Enable linuxmuster-client-adsso service ... ')
 os.system('systemctl enable linuxmuster-client-adsso.service')
+print('Done!')
 
-print('Restarting services:')
+print('\nRestarting services:')
 services = ['chrony', 'smbd', 'nmbd', 'sssd']
 for service in services:
     os.system('systemctl stop ' + service + '.service')
     os.system('systemctl enable ' + service + '.service')
     os.system('systemctl start ' + service + '.service')
 
-
-print('Joining domain ' + sambadomain + '. Note that you have to input the password of the global-admin.')
+# samba domain join
+print('\n#### Joining domain ' + sambadomain + '.')
+print('#### Note that you have to input the password of the global-admin.\n')
 try:
     os.system('kinit global-admin')
 except:
@@ -185,5 +186,20 @@ except:
     print('Failed!')
     sys.exit(1)
 
+# copy server certificate in place
+printr('\nInstalling server certificate ... ')
+sysvol_path = '/var/lib/samba/sysvol'
+cacert_server_path = sysvol_path + '/' + domainname + '/tls/cacert.pem'
+cacert_client_path = '/var/lib/samba/private/tls/' + domainname + '.pem'
+os.system('mkdir -p ' + sysvol_path)
+os.system('mkdir -p "$(dirname ' + cacert_client_path + ')"')
+os.system('mount -o sec=krb5,user=global-admin //' + domainname + '/sysvol ' + sysvol_path)
+os.system('cp ' + cacert_server_path + ' ' + cacert_client_path)
+os.system('umount ' + sysvol_path)
+if os.path.isfile(cacert_client_path):
+    print('Success!')
+else:
+    print('Failed!')
+    sys.exit(1)
 
-print('Done! Now restart the client, please.')
+print('\nAll done! Now restart the client, please.\n')

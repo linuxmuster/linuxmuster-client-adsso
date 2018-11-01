@@ -9,5 +9,5 @@
 # read setup values
 SETUPINI="/etc/linuxmuster-client-adsso.conf"
 if [ -e "$SETUPINI" ]; then
- eval "$(grep ^[a-z] "$SETUPINI" | sed 's| = |="|g' | sed 's|$|"|g')"
+ eval "$(grep ^[a-z] "$SETUPINI" | sed 's| = |="|g' | awk -F\# '{ print $1 }' | sed 's/[[:space:]]*$//' | sed 's|$|"|g')"
 fi

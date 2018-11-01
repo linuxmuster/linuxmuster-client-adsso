@@ -1,7 +1,7 @@
 # /etc/security/pam_mount.conf.xml
 #
 # thomas@linuxmuster.net
-# 20181022
+# 20181031
 #
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE pam_mount SYSTEM "pam_mount.conf.xml.dtd">
