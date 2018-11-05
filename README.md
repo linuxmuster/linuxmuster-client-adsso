@@ -1,5 +1,6 @@
 # linuxmuster-client-adsso
-Scripts and configuration for ubuntu clients to connect to the linuxmuster.net 7 ad.
+---
+Scripts and configuration for ubuntu clients to connect to the linuxmuster.net 7 active directory server.
 ---
 Konfigurationsskripte zur Anbindung von Ubuntu-Clients an den linuxmuster.net 7 Server.
 
