@@ -1,3 +1,13 @@
+linuxmuster-client-adsso (0.3.1-0ubuntu0) bionic; urgency=low
+
+  * login and boot scripts improvements.
+  * lightdm configuration update.
+  * removed gdm configuration.
+  * moved login script to /etc/X11/xinitrc.d.
+  * disable pam krb5 module.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Mon, 05 Nov 2018 19:54:31 +0100
+
 linuxmuster-client-adsso (0.3.0-0ubuntu0) bionic; urgency=low
 
   * changed cifs mount to kerberos authentication.
@@ -10,7 +20,7 @@ linuxmuster-client-adsso (0.3.0-0ubuntu0) bionic; urgency=low
   * added pam krb5 plugin.
   * beautify setup console output.
 
- -- Thomas Schmitt <thomas@linuxmuster.net>  Thu, 01 Nov 2018 11:17:22 +0100
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Thu, 01 Nov 2018 11:13:41 +0100
 
 linuxmuster-client-adsso (0.2.1-0ubuntu0) bionic; urgency=low
 

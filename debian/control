@@ -7,7 +7,7 @@ Standards-Version: 5.0.0
 
 Package: linuxmuster-client-adsso
 Architecture: all
-Depends: python3, cifs-utils, ldb-tools, bind9-host, ipcalc, hxtools, network-manager, krb5-user, keyutils, samba, sssd, libpam-krb5, libpam-mount, chrony, sudo
+Depends: python3, cifs-utils, ldb-tools, bind9-host, ipcalc, hxtools, network-manager, krb5-user, keyutils, samba, sssd, libpam-krb5, libpam-sss, libpam-mount, chrony, sudo
 Description: linuxmuster.net client configuration scripts for ad sso
  This package provides configuration scripts for ubuntu clients, which configures
  single sign on against a linuxmuster.net 7 samba 4 active directory server.
