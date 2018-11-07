@@ -23,7 +23,8 @@ Läuft mit:
 - Xubuntu 18.04
 - Ubuntu Mate Edition 18.04
 - Lubuntu 18.10
-  - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden.  
+  - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden.
+- elementary OS 5 Juno  
 
 Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt werden (Ausnahme: _Linuxmint_).
 
