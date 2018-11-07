@@ -24,6 +24,7 @@ Läuft mit:
 - Ubuntu Mate Edition 18.04
 - Lubuntu 18.10
   - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden.  
+
 Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt werden (Ausnahme: _Linuxmint_).
 
 Technische Infos (s. https://help.ubuntu.com/lts/serverguide/sssd-ad.html):
@@ -68,7 +69,6 @@ Praxis:
 - Ist auf dem Server ein Skript unter `/var/lib/samba/sysvol/scripts/linux/login.script` abgelegt, wird das nach den lokalen Loginskripten eingelesen.
 - In der Konfigurationsdatei `/etc/linuxmuster-client-adsso.conf` können in der Sektion `[names]` die Namen der vom Loginskript angelegten Links angepasst werden.
 - Bei der ersten Domänenanmeldung eines Users wird dessen Passworthash lokal gespeichert, sodass er sich danach auch offline bzw. ohne Verbindung zum lmn7-Server lokal anmelden kann. In dem Fall befindet sich sein Homeverzeichnis unter `/home/<username>`.
--
 
 ToDo:
 - Automatik, um dem User ein Defaultprofil zu verpassen.
