@@ -23,7 +23,7 @@ Läuft mit:
 - Xubuntu 18.04
 - Ubuntu Mate Edition 18.04
 - Lubuntu 18.10
-  - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden.
+  - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden.  
 Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt werden (Ausnahme: _Linuxmint_).
 
 Technische Infos (s. https://help.ubuntu.com/lts/serverguide/sssd-ad.html):
@@ -41,6 +41,7 @@ Technische Infos (s. https://help.ubuntu.com/lts/serverguide/sssd-ad.html):
   - `/var/lib/samba/sysvol`
   - `/srv/samba/schools/default-school`
 - Serverzertifikat wird nach `/var/lib/samba/private/tls` kopiert und von Samba eingebunden.
+- Ein Onboot-Systemd-Event, der u.a. die Proxy-Umgebungsvariable setzt (s.u.), ist in `/etc/systemd/system/linuxmuster-client-adsso.service` definiert.
 
 Installation (mit Netzwerkverbindung zum lmn7-Server):
 - linuxmuster.net-Repo einbinden:
@@ -57,6 +58,7 @@ Installation (mit Netzwerkverbindung zum lmn7-Server):
 - Installation kann per Linbo-Image auf andere Clients ausgerollt werden.
 
 Praxis:
+- Der Onboot-Systemd-Service ruft das Skript `/usr/share/linuxmuster-client-adsso/bin/onboot.sh` auf, das etwaige weitere Skripte einliest, die unter `/var/lib/linuxmuster-client-adsso/onboot.d` abgelegt sind (z.B. Linbo-Postsync-Skripte).
 - Besteht beim Bootvorgang Verbindung zum lmn7-Server, wird über `/etc/profile.d/linuxmuster-proxy.sh` die entsprechende Umgebungsvariable für den Proxy gesetzt. Umgekehrt wird bei Offline-Boot bzw. ohne Verbindung zum Server kein Proxy gesetzt.
 - Falls bei Serververbindung ein abweichender oder kein Proxy benutzt werden soll, kann das in `/etc/linuxmuster-client-adsso.conf` über die Variable `proxy_url` angepasst werden.
 - Nach der Anmeldung an der Domäne findet der User die gesamte Schulfreigabe samt Home unter `/srv/samba/schools/default-school` eingehängt.
@@ -66,6 +68,7 @@ Praxis:
 - Ist auf dem Server ein Skript unter `/var/lib/samba/sysvol/scripts/linux/login.script` abgelegt, wird das nach den lokalen Loginskripten eingelesen.
 - In der Konfigurationsdatei `/etc/linuxmuster-client-adsso.conf` können in der Sektion `[names]` die Namen der vom Loginskript angelegten Links angepasst werden.
 - Bei der ersten Domänenanmeldung eines Users wird dessen Passworthash lokal gespeichert, sodass er sich danach auch offline bzw. ohne Verbindung zum lmn7-Server lokal anmelden kann. In dem Fall befindet sich sein Homeverzeichnis unter `/home/<username>`.
+-
 
 ToDo:
 - Automatik, um dem User ein Defaultprofil zu verpassen.
