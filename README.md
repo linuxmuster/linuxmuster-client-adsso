@@ -68,8 +68,18 @@ Praxis:
 - Beim Anmeldevorgang wird das Skript `/usr/share/linuxmuster-client-adsso/bin/login.sh` aufgerufen, das wiederum die Skripte unter `/var/lib/linuxmuster-client-adsso/login.d` einliest.
 - Eigene Skripte können dort zusätzlich oder anstatt der vom Paket installierten abgelegt werden.
 - Ist auf dem Server ein Skript unter `/var/lib/samba/sysvol/scripts/linux/login.script` abgelegt, wird das nach den lokalen Loginskripten eingelesen.
-- In der Konfigurationsdatei `/etc/linuxmuster-client-adsso.conf` können in der Sektion `[names]` die Namen der vom Loginskript angelegten Links angepasst werden.
 - Bei der ersten Domänenanmeldung eines Users wird dessen Passworthash lokal gespeichert, sodass er sich danach auch offline bzw. ohne Verbindung zum lmn7-Server lokal anmelden kann. In dem Fall befindet sich sein Homeverzeichnis unter `/home/<username>`.
+- Anpassungsmöglichkeiten in der Konfigurationsdatei `/etc/linuxmuster-client-adsso.conf`:
+  - Abschnitt `[client]`
+    - `share_folder` : Relativer Pfad zu dem Verzeichnis, in dem die Links zu den Tauschverzeichnissen angelegt werden.
+    - `school_share` : Name des Links zum Schultauschverzeichnis.
+    - `teachers_share` : Name des Links zum Lehrkräftetauschverzeichnis.
+    - `student_homes` : Name des Links zu den Schüler*innenhomes.
+    - `force_localhome = yes|no` : Default "yes", "no" verwendet das Serverhome, wenn Verbindung zum Server besteht.
+  - Abschnitt `[proxy]`
+    - `proxy_url` : Leer lassen, wenn kein Proxy verwendet werden soll.
+    - `proxy_profile` : Pfad zum Skript, das die Proxy-Environment-Variablen setzt.
+    - `proxy_template` : Pfad zur Vorlage, aus der das Proxy-Profil-Skript erstellt wird.
 
 ToDo:
 - Automatik, um dem User ein Defaultprofil zu verpassen.

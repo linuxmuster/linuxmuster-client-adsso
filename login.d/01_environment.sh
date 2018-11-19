@@ -13,7 +13,7 @@ if [ -s "$userinfo" ]; then
   if [ -n "$UNIXHOME" -a -n "$SCHOOL" ]; then
 
     # pivot local homedir to serverside homedir
-    [ -d "$UNIXHOME" ] && export HOME="$UNIXHOME"
+    [ "$force_localhome" = "no" -a -d "$UNIXHOME" ] && export HOME="$UNIXHOME"
     cd "$HOME"
 
     PGROUP="$(grep ^sophomorixAdminClass "$userinfo" | awk '{ print $2 }')"
