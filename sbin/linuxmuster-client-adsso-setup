@@ -3,7 +3,7 @@
 # /usr/sbin/linuxmuster-client-adsso-setup
 #
 # thomas@linuxmuster.net
-# 20181105
+# 20181121
 #
 
 import codecs
@@ -142,8 +142,8 @@ print('Done!')
 
 # enable necessary pam modules
 printr('Updating pam configuration ... ')
-os.system('pam-auth-update --enable libpam-mount mkhomedir pwquality sss --force')
-os.system('pam-auth-update --remove krb5 --force')
+os.system('pam-auth-update --package --enable libpam-mount mkhomedir pwquality sss --force')
+os.system('pam-auth-update --package --remove krb5 --force')
 
 # path for sysvol share
 printr('Creating sysvol folder ... ')
