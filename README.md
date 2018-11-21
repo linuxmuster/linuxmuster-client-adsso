@@ -85,7 +85,7 @@ Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt wer
 - [Linbo-Testimage mit Ubuntu 18.04.1 Version 20181121 (4.4GB Betriebssystem)](http://fleischsalat.linuxmuster.org/ova/ubuntu18041_20181121.cloop.tar.gz), 1.8GB, MD5: c32dcc92d25f6edfe2445af04f500450
 - Inbetriebnahme:
   - Auspacken ins Linbo-Verzeichnis:  
-  `# tar xf ubuntu1804_20181121.cloop.tar.gz -C /srv/linbo`
+  `# tar xf ubuntu18041_20181121.cloop.tar.gz -C /srv/linbo`
   - Eintragen in die start.conf-Datei der entsprechenden Gruppe.
   - Linbo-Bittorrent-Dienst neu starten:  
   `# systemctl restart linbo-bittorrent.service`
