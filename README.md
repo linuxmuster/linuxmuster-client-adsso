@@ -87,6 +87,8 @@ Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt wer
   - Auspacken ins Linbo-Verzeichnis:  
   `# tar xf ubuntu1804_20181121.cloop.tar.gz -C /srv/linbo`
   - Eintragen in die start.conf-Datei der entsprechenden Gruppe.
+  - Linbo-Bittorrent-Dienst neu starten:  
+  `# systemctl restart linbo-bittorrent.service`
   - Nach dem Sync als `root` ausführen:  
   `# linuxmuster-distupgrade`  
   `# linuxmuster-client-adsso-setup`
