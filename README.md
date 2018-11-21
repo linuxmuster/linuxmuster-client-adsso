@@ -4,17 +4,17 @@ Scripts and configuration for ubuntu clients to connect to the linuxmuster.net 7
 ---
 Konfigurationsskripte zur Anbindung von Ubuntu-Clients an den linuxmuster.net 7 Server.
 
-Features:
+**Features**:
 - Domänenanmeldung mit Single-Sign-On mit transparenter Proxy-Authentifizierung.
 - Automatisches Einbinden des Server-Homeverzeichnisses.
 - Verlinkung der Tauschverzeichnisse im Home.
 - Link zu den Schülerhomes im Home der Lehrkräfte.
 - Passwort-Caching/Offline-Anmeldung.
 
-Läuft mit:
+**Läuft mit**:
 - Ubuntu 18.04
-  - Dateimanager Nautilus kommt mit serverseitigen Links nicht klar.
-  - Abhilfe: Stattdessen Nemo verwenden.
+  - Dateimanager Nautilus kommt mit serverseitigen Links nicht klar, wenn das Serverhome verwendet wird (s.u.: `force_localhome = no` in `/etc/linuxmuster-client-adsso.conf`)
+  - Abhilfe: Stattdessen **Nemo** als Dateimanager verwenden.
 - Kubuntu 18.04
   - Windowmanager _sddm_ inkompatibel, Workaround:
   - _lightdm_ als Alternative installieren:
@@ -28,7 +28,7 @@ Läuft mit:
 
 Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt werden (Ausnahme: _Linuxmint_).
 
-Technische Infos (s. https://help.ubuntu.com/lts/serverguide/sssd-ad.html):
+**Technische Infos** (s. https://help.ubuntu.com/lts/serverguide/sssd-ad.html):
 - Setup richtet alle Dienste ein, die für Single-Sign-On benötigt werden:
   - samba: `/etc/samba/smb.conf`
   - sssd: `/etc/sssd/sssd.conf`
@@ -45,7 +45,7 @@ Technische Infos (s. https://help.ubuntu.com/lts/serverguide/sssd-ad.html):
 - Serverzertifikat wird nach `/var/lib/samba/private/tls` kopiert und von Samba eingebunden.
 - Ein Onboot-Systemd-Event, der u.a. die Proxy-Umgebungsvariable setzt (s.u.), ist in `/etc/systemd/system/linuxmuster-client-adsso.service` definiert.
 
-Installation (mit Netzwerkverbindung zum lmn7-Server):
+**Installation** (mit Netzwerkverbindung zum lmn7-Server):
 - linuxmuster.net-Repo einbinden:
   - `# wget http://fleischsalat.linuxmuster.org/repo.key -O - | apt-key add -`
   - `# echo 'deb http://fleischsalat.linuxmuster.org/bionic/ ./' > /etc/apt/sources.list.d/lmn.list`
@@ -59,7 +59,7 @@ Installation (mit Netzwerkverbindung zum lmn7-Server):
   - Anschließend den Client neu starten.
 - Installation kann per Linbo-Image auf andere Clients ausgerollt werden.
 
-Praxis:
+**Praxis**:
 - Der Onboot-Systemd-Service ruft das Skript `/usr/share/linuxmuster-client-adsso/bin/onboot.sh` auf, das etwaige weitere Skripte einliest, die unter `/var/lib/linuxmuster-client-adsso/onboot.d` abgelegt sind (z.B. Linbo-Postsync-Skripte).
 - Besteht beim Bootvorgang Verbindung zum lmn7-Server, wird über `/etc/profile.d/linuxmuster-proxy.sh` die entsprechende Umgebungsvariable für den Proxy gesetzt. Umgekehrt wird bei Offline-Boot bzw. ohne Verbindung zum Server kein Proxy gesetzt.
 - Falls bei Serververbindung ein abweichender oder kein Proxy benutzt werden soll, kann das in `/etc/linuxmuster-client-adsso.conf` über die Variable `proxy_url` angepasst werden.
@@ -75,13 +75,24 @@ Praxis:
     - `school_share` : Name des Links zum Schultauschverzeichnis.
     - `teachers_share` : Name des Links zum Lehrkräftetauschverzeichnis.
     - `student_homes` : Name des Links zu den Schüler*innenhomes.
-    - `force_localhome = yes|no` : Default "yes", "no" verwendet das Serverhome, wenn Verbindung zum Server besteht.
+    - `force_localhome = yes|no` : Default "yes", "no" verwendet das Serverhome (s.o. unter `/srv/samba/schools/default-school`), wenn Verbindung zum Server besteht.
   - Abschnitt `[proxy]`
     - `proxy_url` : Leer lassen, wenn kein Proxy verwendet werden soll.
     - `proxy_profile` : Pfad zum Skript, das die Proxy-Environment-Variablen setzt.
     - `proxy_template` : Pfad zur Vorlage, aus der das Proxy-Profil-Skript erstellt wird.
 
-ToDo:
+**Download**:
+- [Linbo-Testimage mit Ubuntu 18.04 Version 20181121 (4.4GB Betriebssystem))](http://fleischsalat.linuxmuster.org/ova/ubuntu1804_20181121.cloop.tar.gz), 1.8GB, MD5: c32dcc92d25f6edfe2445af04f500450
+- Inbetriebnahme:
+  - Auspacken ins Linbo-Verzeichnis:  
+  `# tar xf ubuntu1804_20181121.cloop.tar.gz -C /srv/linbo`
+  - Eintragen in die start.conf-Datei der entsprechenden Gruppe.
+  - Nach dem Sync als `root` ausführen:  
+  `# linuxmuster-distupgrade`  
+  `# linuxmuster-client-adsso-setup`
+  - Reboot.
+
+**ToDo**:
 - Automatik, um dem User ein Defaultprofil zu verpassen.
 - Könnte man z. Bsp. auf dem Server unter `/var/lib/samba/sysvol/profile/linux/` ablegen und beim Anmelden von dort einlesen. Dann müsste man bei einer Profiländerung kein Image erzeugen und ausrollen.
 - Wäre eine zu vergebende Aufgabe.
