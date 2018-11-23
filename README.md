@@ -93,6 +93,8 @@ Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt wer
   `# linuxmuster-distupgrade`  
   `# linuxmuster-client-adsso-setup`
   - Reboot.
+  - Angelegter User heißt `linuxmuster`, Passwort `Muster!`.
+  - Root-Passwort `Muster!`
 
 **ToDo**:
 - Automatik, um dem User ein Defaultprofil zu verpassen.
