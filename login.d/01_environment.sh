@@ -1,7 +1,7 @@
 # create user environment
 #
 # thomas@linuxmuster.net
-# 20181104
+# 20181127
 #
 
 if [ -s "$userinfo" ]; then
@@ -9,6 +9,7 @@ if [ -s "$userinfo" ]; then
   UNIXHOME="$(grep ^unixHomeDirectory "$userinfo" | awk '{ print $2 }')"
   SCHOOL="$(grep ^sophomorixSchoolname "$userinfo" | awk '{ print $2 }')"
   STUDENTGROUPS="$(grep ^memberOf "$userinfo" | grep 'OU=Students' | awk '{ print $2 }' | awk -F\, '{ print $1 }' | awk -F\= '{ print $2 }')"
+  PROJECTGROUPS="$(grep ^memberOf "$userinfo" | grep 'OU=Projects' | awk '{ print $2 }' | awk -F\, '{ print $1 }' | awk -F\= '{ print $2 }')"
 
   if [ -n "$UNIXHOME" -a -n "$SCHOOL" ]; then
 

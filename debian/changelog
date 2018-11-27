@@ -1,3 +1,11 @@
+linuxmuster-client-adsso (0.5.0-0ubuntu0) bionic; urgency=low
+
+  * exporting proxy environment variables.
+  * added swapfile handling on boot.
+  * added links to shared project folders.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Tue, 27 Nov 2018 16:33:24 +0100
+
 linuxmuster-client-adsso (0.4.2-0ubuntu0) bionic; urgency=low
 
   * added gdm3 config template.

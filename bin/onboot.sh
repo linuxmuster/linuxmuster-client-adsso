@@ -3,7 +3,7 @@
 # do onboot stuff
 #
 # thomas@linuxmuster.net
-# 20181103
+# 20181127
 #
 
 # read setup values
@@ -35,6 +35,23 @@ else
   if [ -n "$proxy_profile"]; then
     echo "Removing proxy environment."
     rm -f "$proxy_profile"
+  fi
+fi
+
+# handle swapfile
+if [ -n "$swapfile" ]; then
+  if grep -qw ^"$swapfile" /etc/fstab; then
+    if ! -e "$swapfile"; then
+      [ -z "$swapsize" ] && swapsize=2
+      if fallocate -l "$swapsize"G "$swapfile"; then
+        echo "Creating $swapfile."
+        mkswap "$swapfile"
+        swapon "$swapfile"
+      else
+        echo "Creating $swapfile failed!"
+        rm -f "$swapfile"
+      fi
+    fi
   fi
 fi
 

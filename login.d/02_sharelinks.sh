@@ -1,7 +1,7 @@
 # create share links in documents folder
 #
 # thomas@linuxmuster.net
-# 20181101
+# 20181127
 #
 
 SHAREFOLDER="$HOME/$share_folder"
@@ -25,5 +25,10 @@ if [ -n "$SROLE" ]; then
   for foldername in $STUDENTGROUPS; do
     classshare="$CLASSSHARES/$foldername"
     [ -d "$classshare" ] && ln -srf "$classshare" "$SHAREFOLDER/$foldername"
+  done
+  # do project shares
+  for foldername in $PROJECTGROUPS; do
+    projectshare="$PROJECTSHARES/$foldername"
+    [ -d "$projectshare" ] && ln -srf "$projectshare" "$SHAREFOLDER/$foldername"
   done
 fi

@@ -10,6 +10,7 @@ Konfigurationsskripte zur Anbindung von Ubuntu-Clients an den linuxmuster.net 7 
 - Verlinkung der Tauschverzeichnisse im Home.
 - Link zu den Schülerhomes im Home der Lehrkräfte.
 - Passwort-Caching/Offline-Anmeldung.
+- Swapfile-Handling beim Bootvorgang, falls es durch Ĺinbo-Sync entfernt wurde.
 
 **Läuft mit**:
 - Ubuntu 18.04
@@ -80,6 +81,9 @@ Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt wer
     - `proxy_url` : Leer lassen, wenn kein Proxy verwendet werden soll.
     - `proxy_profile` : Pfad zum Skript, das die Proxy-Environment-Variablen setzt.
     - `proxy_template` : Pfad zur Vorlage, aus der das Proxy-Profil-Skript erstellt wird.
+  - Abschnitt `[swap]`
+    - `swapfile` : Pfad zur Swapdatei (ggf. anpassen, muss in _/etc/fstab_ eingetragen sein)
+    - `swapsize` : Größe der Swapdatei in GB.
 
 **Download**:
 - [Linbo-Testimage mit Ubuntu 18.04.1 Version 20181121 (4.4GB Betriebssystem)](http://fleischsalat.linuxmuster.org/ova/ubuntu18041_20181121.cloop.tar.gz), 1.8GB, MD5: c32dcc92d25f6edfe2445af04f500450
