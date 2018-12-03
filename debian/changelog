@@ -1,3 +1,9 @@
+linuxmuster-client-adsso (0.5.1-0ubuntu0) bionic; urgency=low
+
+  * updated linux login.script path.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Mon, 03 Dec 2018 11:43:53 +0100
+
 linuxmuster-client-adsso (0.5.0-0ubuntu0) bionic; urgency=low
 
   * exporting proxy environment variables.

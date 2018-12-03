@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # thomas@linuxmuster.net
-# 20181031
+# 20181203
 # login script for ad users
 #
 
@@ -21,7 +21,7 @@ if ls "$login_hookdir"/*.sh &> /dev/null; then
 fi
 
 # finally source serverside login script if present
-loginscript="$ad_sysvol_path/scripts/linux/login.script"
+loginscript="$ad_sysvol_path/scripts/$SCHOOL/linux/login.script"
 if [ -e "$loginscript" ]; then
   echo "Sourcing login script $loginscript ..."
   echo
