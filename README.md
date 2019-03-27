@@ -17,14 +17,14 @@ Konfigurationsskripte zur Anbindung von Ubuntu-Clients an den linuxmuster.net 7 
   - Dateimanager Nautilus kommt mit serverseitigen Links nicht klar, wenn das Serverhome verwendet wird (s.u.: `force_localhome = no` in `/etc/linuxmuster-client-adsso.conf`)
   - Abhilfe: Stattdessen **Nemo** als Dateimanager verwenden.
 - Kubuntu 18.04
-  - Windowmanager _sddm_ inkompatibel, Workaround:
+  - Windowmanager _sddm_ inkompatibel (nur bei Serverhome), Workaround:
   - _lightdm_ als Alternative installieren:
     - `# apt install lightdm slick-greeter --no-install-recommends`
     - in `/etc/lightdm/lightdm.d/50-linuxmuster.conf` _user-session_ Zeile aktivieren
 - Xubuntu 18.04
 - Ubuntu Mate Edition 18.04
 - Lubuntu 18.10
-  - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden.
+  - Windowmanager _sddm_ muss wie bei Kubuntu durch _lightdm_ ersetzt werden (nur bei Serverhome).
 - elementary OS 5 Juno  
 
 Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt werden (Ausnahme: _Linuxmint_).
@@ -48,8 +48,8 @@ Generell sollten alle Ubuntu-Derivate der Versionen 18.04/18.10 unterstützt wer
 
 **Installation** (mit Netzwerkverbindung zum lmn7-Server):
 - linuxmuster.net-Repo einbinden:
-  - `# wget http://fleischsalat.linuxmuster.org/repo.key -O - | apt-key add -`
-  - `# echo 'deb http://fleischsalat.linuxmuster.org/bionic/ ./' > /etc/apt/sources.list.d/lmn.list`
+  - `# wget https://archive.linuxmuster.net/archive.linuxmuster.net.key -O - | apt-key add -`
+  - `# echo 'deb https://archive.linuxmuster.net/ bionic/' > /etc/apt/sources.list.d/lmn.list`
   - `# apt update`
 - Paket installieren:
   - `# apt install linuxmuster-client-adsso`
