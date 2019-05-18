@@ -55,6 +55,11 @@ if [ -n "$swapfile" ]; then
   fi
 fi
 
+# Template directory to common session:
+if [ -f /etc/pam.d/common-session ]; then
+    sed -i -e ":pam_mkhomedir.so: s:pam_mkhomedir.so.*$:pam_mkhomedir.so  skel=${template_directory}:" /etc/pam.d/common-session
+fi
+
 # source onboot hookdir
 if ls "$onboot_hookdir"/*.sh &> /dev/null; then
   echo "Sourcing onboot hookdir:"
