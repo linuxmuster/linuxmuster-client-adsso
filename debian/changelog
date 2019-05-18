@@ -1,10 +1,13 @@
-linuxmuster-client-adsso (0.5.1-0ubuntu3) UNRELEASED; urgency=medium
+linuxmuster-client-adsso (0.6-0ubuntu0) bionic; urgency=medium
 
   * Setting template directory in onboot.sh from config value to 
     common-session pam_mkhomedir module
   * Fixed bug in readvars.sh
+  * Link to homedir 
+  * Profile links with new script(s)
+  * New names for profile config files
 
- -- root <frank@linuxmuster.net>  Sat, 18 May 2019 14:56:42 +0200
+ -- Frank Schiebel <frank@linuxmuster.net>  Sat, 18 May 2019 21:52:03 +0200
 
 linuxmuster-client-adsso (0.5.1-0ubuntu0) bionic; urgency=low
 

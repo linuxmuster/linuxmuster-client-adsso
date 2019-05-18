@@ -14,8 +14,8 @@ fi
 # only if SROLE was defined earlier
 if [ -n "$SROLE" ]; then
 
-  if [ ! -n "$UNIXHOME" ]; then 
-	  ln -srf $UNIXHOME $HOME/$link_homedir
+  if [ -n "$UNIXHOME" ] && [ ! -e $HOME/$link_homedir ]; then
+  	ln -srf $UNIXHOME $HOME/$link_homedir
   fi
 
   mkdir -p "$SHAREFOLDER"

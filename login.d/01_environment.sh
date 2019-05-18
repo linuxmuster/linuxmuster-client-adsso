@@ -4,7 +4,12 @@
 # 20181127
 #
 
+function write2log() {
+    logger -t linuxmuster-client "$1"
+}
+
 if [ -s "$userinfo" ]; then
+  write2log "Getting userinfo."
 
   UNIXHOME="$(grep ^unixHomeDirectory "$userinfo" | awk '{ print $2 }')"
   SCHOOL="$(grep ^sophomorixSchoolname "$userinfo" | awk '{ print $2 }')"
@@ -30,5 +35,6 @@ if [ -s "$userinfo" ]; then
     SCHOOLSHARE="$SHAREDIR/school"
 
   fi
+  write2log "Userinfo ok"
 
 fi
