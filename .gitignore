@@ -1,2 +1,10 @@
 .directory
 mkpkg
+build-arch-stamp
+build-indep-stamp
+configure-stamp
+debian/.debhelper/
+debian/files
+debian/linuxmuster-client-adsso.debhelper.log
+debian/linuxmuster-client-adsso.substvars
+debian/linuxmuster-client-adsso/
