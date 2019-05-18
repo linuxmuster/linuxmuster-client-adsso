@@ -17,6 +17,7 @@ if [ -s "$userinfo" ]; then
     [ "$force_localhome" = "no" -a -d "$UNIXHOME" ] && export HOME="$UNIXHOME"
     cd "$HOME"
 
+    SHAREFOLDER="$HOME/$share_folder"
     PGROUP="$(grep ^sophomorixAdminClass "$userinfo" | awk '{ print $2 }')"
     SROLE="$(grep ^sophomorixRole "$userinfo" | awk '{ print $2 }')"
 

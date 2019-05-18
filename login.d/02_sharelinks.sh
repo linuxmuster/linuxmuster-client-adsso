@@ -4,7 +4,6 @@
 # 20181127
 #
 
-SHAREFOLDER="$HOME/$share_folder"
 
 # first cleanup
 [ -e "$HOME/$student_homes" ] && rm -f "$HOME/$student_homes"
@@ -14,6 +13,10 @@ fi
 
 # only if SROLE was defined earlier
 if [ -n "$SROLE" ]; then
+
+  if [ ! -n "$UNIXHOME" ]; then 
+	  ln -srf $UNIXHOME $HOME/$link_homedir
+  fi
 
   mkdir -p "$SHAREFOLDER"
   ln -srf "$SCHOOLSHARE" "$SHAREFOLDER/$school_share"
