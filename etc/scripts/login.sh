@@ -6,7 +6,7 @@
 #
 
 # read setup values
-source /usr/share/linuxmuster-client-adsso/bin/readvars.sh || exit 1
+source /etc/linuxmuster-client/scripts/readvars.sh || exit 1
 ad_sysvol_path="/var/lib/samba/sysvol/$ad_domain"
 
 # test ad connection

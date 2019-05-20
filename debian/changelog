@@ -1,8 +1,9 @@
-linuxmuster-client-adsso (0.6-0ubuntu1) UNRELEASED; urgency=medium
+linuxmuster-client-adsso (0.7-0ubuntu0) bionic; urgency=medium
 
   * Moved temporary locale homes of ad users to /home/cache/%u
+  * Moved all scripts to /etc/linuxmuster-client/
 
- -- Frank Schiebel <frank@linuxmuster.net>  Mon, 20 May 2019 19:34:42 +0200
+ -- Frank Schiebel <frank@linuxmuster.net>  Mon, 20 May 2019 20:50:16 +0200
 
 linuxmuster-client-adsso (0.6-0ubuntu0) bionic; urgency=medium
 

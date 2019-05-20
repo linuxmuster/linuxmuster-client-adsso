@@ -153,10 +153,9 @@ print('Done!')
 # enable login scripts
 printr('Enabling login scripts ... ')
 link_target = '/etc/X11/xinit/xinitrc.d/99linuxmuster.net'
-link_source = '/usr/share/linuxmuster-client-adsso/bin/login.sh'
+link_source = '/etc/linuxmuster-client/scripts/login.sh'
 os.system('mkdir -p ' + os.path.dirname(link_target))
 os.system('ln -sf ' + link_source + ' ' + link_target)
-os.system('ln -sf /usr/share/linuxmuster-client-adsso/login.d/* /var/lib/linuxmuster-client-adsso/login.d/')
 
 # sudo for global-admin
 printr('Sudo for global-admin ... ')

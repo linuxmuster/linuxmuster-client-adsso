@@ -7,7 +7,7 @@
 #
 
 # read setup values
-source /usr/share/linuxmuster-client-adsso/bin/readvars.sh || exit 1
+source /etc/linuxmuster-client/scripts/readvars.sh || exit 1
 
 if [ ! -s "$sssd_conf" ]; then
   echo "$sssd_conf does not exist or is not valid!"

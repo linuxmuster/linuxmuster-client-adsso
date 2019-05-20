@@ -1,6 +1,4 @@
 debian/*.service  etc/systemd/system/
 sbin/*		        usr/sbin/
 etc/*		        etc/linuxmuster-client/
-bin/*             usr/share/linuxmuster-client-adsso/bin/
 templates/*		    usr/share/linuxmuster-client-adsso/templates/
-login.d/*         usr/share/linuxmuster-client-adsso/login.d/

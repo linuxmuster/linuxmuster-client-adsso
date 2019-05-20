@@ -6,7 +6,7 @@ Before=sssd.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/share/linuxmuster-client-adsso/bin/onboot.sh
+ExecStart=/etc/linuxmuster-client/scripts/onboot.sh
 
 [Install]
 WantedBy=multi-user.target
