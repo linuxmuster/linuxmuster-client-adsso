@@ -1,3 +1,16 @@
+linuxmuster-client-adsso (0.8-0ubuntu4) bionic; urgency=medium
+
+  * Moved run hook to a function in login.sh, so we can jump out 
+    with "return" in case of homedir mounted from server
+  * Remove unserinfo file at the end of login
+  * Introduced template_user config value
+  * Abort profile operations, if $template_user logs in
+  * Unset proxy settings, if $templat_user logs in, so that a whitelisted
+    client can connect to the internet without auth for maintenance tasks
+  * Added posibility to add arbitrary links
+
+ -- Frank Schiebel <frank@linuxmuster.net>  Tue, 21 May 2019 08:28:16 +0200
+
 linuxmuster-client-adsso (0.7-0ubuntu0) bionic; urgency=medium
 
   * Moved temporary locale homes of ad users to /home/cache/%u
