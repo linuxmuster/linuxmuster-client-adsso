@@ -8,8 +8,6 @@
 # und Einträge nach dem Doppelpunkt als symbolischer Link 
 # HOMEDIR bezeichnet das lokale Heimatverzeichnis
 
-UNIXHOME=/srv/samba/schools/default-school/teachers/de
-
 if [ -f /etc/linuxmuster-client/links.conf ]; then 
 
 while read line
