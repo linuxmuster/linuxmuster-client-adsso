@@ -128,6 +128,10 @@ for f in os.listdir(tpldir):
         print(' Failed!')
         sys.exit(1)
 
+# deleting krb5.keytab file, if existent
+printr('\nDeleting krb5.keytab if it exists ... ')
+if os.path.exists("/etc/krb5.keytab"):
+    os.unlink("/etc/krb5.keytab")
 
 # set permissions on sssd.conf
 printr('\nSetting sssd.conf permissions ... ')
