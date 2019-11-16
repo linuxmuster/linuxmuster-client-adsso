@@ -1,3 +1,11 @@
+linuxmuster-client-adsso (0.8-0ubuntu5) bionic; urgency=medium
+
+  * fix #15 remove remnant line
+  * fix #13 over long lines	
+  * fix #11 using a turnkey script	
+	
+ -- Tobias Küchel <devel@zukuul.de>  Sat, 16 Nov 2019 21:43:39 +0100
+
 linuxmuster-client-adsso (0.8-0ubuntu4) bionic; urgency=medium
 
   * Moved run hook to a function in login.sh, so we can jump out 
