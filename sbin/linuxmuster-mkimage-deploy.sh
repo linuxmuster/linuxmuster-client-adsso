@@ -3,7 +3,7 @@
 ## SSS stuff
 # this might break login for the image producer
 # deletes all current cachefiles and domain-related files
-systemctl sssd stop
+systemctl stop sssd 
 rm -rf /var/lib/samba/private/tls/*
 rm -rf /var/log/sssd/*
 rm -rf /var/lib/sss/pubconf/krb5.include.d/domain_realm*
