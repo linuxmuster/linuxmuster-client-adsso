@@ -1,5 +1,6 @@
-linuxmuster-client-adsso (0.8-0ubuntu6) bionic; urgency=medium
-
+linuxmuster-client-adsso (0.8-0ubuntu7) bionic; urgency=medium
+	
+  * add mkimage and mkimage-deploy scripts
   * fix #15 remove remnant line
   * fix #13 over long lines
   * fix #11 using a turnkey script: remove keytab file
