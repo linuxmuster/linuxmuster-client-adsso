@@ -55,9 +55,9 @@ if [ -n "$swapfile" ]; then
   fi
 fi
 
-# Template directory to common session:
-if [ -f /etc/pam.d/common-session ]; then
-    sed -i -e ":pam_mkhomedir.so: s:pam_mkhomedir.so.*$:pam_mkhomedir.so  skel=${template_directory}:" /etc/pam.d/common-session
+# Template directory to linuxmuster-session
+if [ -f /etc/pam.d/linuxmuster-session ]; then
+    sed -i -e ":pam_mkhomedir.so: s:pam_mkhomedir.so.*$:pam_mkhomedir.so  skel=${template_directory}:" /etc/pam.d/linuxmuster-session
 fi
 
 # source onboot hookdir

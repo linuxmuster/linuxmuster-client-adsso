@@ -1,2 +1,5 @@
 usr/share/linuxmuster-client-adsso/templates/
-etc/inuxmuster-client/onboot.d/
+etc/linuxmuster-client/onboot.d/
+etc/linuxmuster-client/login.d/
+etc/linuxmuster-client/login-as-root.d/
+

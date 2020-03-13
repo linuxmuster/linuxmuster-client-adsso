@@ -1,0 +1,15 @@
+# /etc/pam.d/linuxmuster-session
+#
+# tobias@linuxmuster.net
+# 20200312
+#
+session requisite                       pam_mkhomedir.so  skel=/home/linuxadmin
+session requisite       pam_exec.so /etc/linuxmuster-client/scripts/login-as-root.sh
+session [default=1]                     pam_permit.so
+# here's the fallback if no module succeeds                                                                                                                            session requisite           pam_deny.so
+session required            pam_permit.so
+session required        pam_unix.so
+session optional                        pam_sss.so
+session optional        pam_mount.so
+session optional        pam_systemd.so
+
