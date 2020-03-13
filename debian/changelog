@@ -1,3 +1,12 @@
+linuxmuster-client-adsso (0.9-0ubuntu0) bionic; urgency=medium
+
+  * typo in dirs: remove /etc/inuxmuster-client/onboot.d,
+  * add login-as-root.sh functionality,
+  * add linuxmuster-session and use it instead of common-session in lightdm
+  * add timeout for sssd in conf
+
+ -- Tobias Küchel <devel@zukuul.de>  Fri, 13 Mar 2020 02:32:34 +0100
+
 linuxmuster-client-adsso (0.8-0ubuntu6) bionic; urgency=medium
 
   * fix #15 remove remnant line
@@ -8,7 +17,7 @@ linuxmuster-client-adsso (0.8-0ubuntu6) bionic; urgency=medium
 
 linuxmuster-client-adsso (0.8-0ubuntu4) bionic; urgency=medium
 
-  * Moved run hook to a function in login.sh, so we can jump out 
+  * Moved run hook to a function in login.sh, so we can jump out
     with "return" in case of homedir mounted from server
   * Remove unserinfo file at the end of login
   * Introduced template_user config value
