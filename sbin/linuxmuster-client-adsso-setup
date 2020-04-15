@@ -176,12 +176,12 @@ os.system('chmod 400 ' + config)
 print('Done!')
 
 print('\nEnabling services:')
-services = ['linuxmuster-client-adsso', 'chrony', 'smbd', 'nmbd', 'sssd']
+services = ['linuxmuster-client-adsso', 'smbd', 'nmbd', 'sssd']
 for service in services:
     os.system('systemctl enable ' + service + '.service')
 
 print('\nRestarting services:')
-services = ['chrony', 'smbd', 'nmbd']
+services = ['smbd', 'nmbd']
 for service in services:
     os.system('systemctl restart ' + service + '.service')
 
