@@ -7,7 +7,7 @@
 # sources setup values for shell scripts
 
 # read setup values
-SETUPINI="/etc/linuxmuster-client-adsso.conf"
+SETUPINI="/etc/linuxmuster-client/adsso.conf"
 if [ -e "$SETUPINI" ]; then
  eval "$(grep ^[a-z] "$SETUPINI" | sed 's|\s*=\s*|="|g' | awk -F\# '{ print $1 }' | sed 's/[[:space:]]*$//' | sed 's|$|"|g')"
 fi
