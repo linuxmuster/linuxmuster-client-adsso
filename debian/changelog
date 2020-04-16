@@ -1,11 +1,15 @@
-linuxmuster-client-adsso (0.9-0ubuntu0) bionic; urgency=medium
+linuxmuster-client-adsso (0.9-1ubuntu0) bionic; urgency=medium
 
-  * typo in dirs: remove /etc/inuxmuster-client/onboot.d,
+  [ Tobias Küchel ]
+  * typo in debian/dirs: remove /etc/inuxmuster-client/onboot.d,
   * add login-as-root.sh functionality,
   * add linuxmuster-session and use it instead of common-session in lightdm
   * add timeout for sssd in conf
+  * move linuxmuster-client-adsso.conf to linuxmuster-client/adsso.conf for consistency
+  * remove chrony from this package
+  * change path on sysvol to $SCHOOL/lmn/linux
 
- -- Tobias Küchel <devel@zukuul.de>  Fri, 13 Mar 2020 02:32:34 +0100
+ -- Tobias Küchel <tobias@linuxmuster.net>  Fri, 13 Mar 2020 02:32:34 +0100
 
 linuxmuster-client-adsso (0.8-0ubuntu6) bionic; urgency=medium
 
@@ -13,7 +17,7 @@ linuxmuster-client-adsso (0.8-0ubuntu6) bionic; urgency=medium
   * fix #13 over long lines
   * fix #11 using a turnkey script: remove keytab file
 
- -- Tobias Küchel <devel@zukuul.de>  Sat, 16 Nov 2019 21:43:39 +0100
+ -- Tobias Küchel <tobias@linuxmuster.net>  Sat, 16 Nov 2019 21:43:39 +0100
 
 linuxmuster-client-adsso (0.8-0ubuntu4) bionic; urgency=medium
 
