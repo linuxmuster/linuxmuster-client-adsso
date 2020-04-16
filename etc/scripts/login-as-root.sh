@@ -6,7 +6,7 @@
 # login script for AD users, executed in root context from pam_exec
 #
 
-logger "login-as-root.sh: $PAM_RHOST $PAM_RUSER $PAM_SERVICE $PAM_TTY $PAM_USER $PAM_TYPE"
+logger -t linuxmuster-client "login-as-root.sh executed with PAM_RHOST=$PAM_RHOST PAM_RUSER=$PAM_RUSER PAM_SERVICE=$PAM_SERVICE PAM_TTY=$PAM_TTY PAM_USER=$PAM_USER PAM_TYPE=$PAM_TYPE"
 USER=$PAM_USER
 
 ##

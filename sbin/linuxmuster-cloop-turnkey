@@ -11,7 +11,6 @@ if [ -e "/.linbo" ]; then
     echo "Das Setzen des Passwortes für den Benutzer kann daher übersprungen werden."
 fi
 read -p "Möchtest du ein neues Passwort für linuxadmin vergeben? [j/N] "
-read -p "Bitte vergib ein neues Passwort für den Benutzer linuxadmin." -n 1 -r
 echo
 if [[ $REPLY =~ ^[YyJj]$ ]]
 then

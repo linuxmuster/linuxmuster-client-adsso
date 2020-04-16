@@ -9,6 +9,8 @@
 source /etc/linuxmuster-client/scripts/readvars.sh || exit 1
 ad_sysvol_path="/var/lib/samba/sysvol/$ad_domain"
 
+logger -t linuxmuster-client "login.sh executed"
+
 
 # hook function
 function run_hook() {
