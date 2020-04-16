@@ -145,13 +145,14 @@ with open('/etc/hostname', 'w') as outfile:
 print('Done!')
 
 # make sure, /etc/pam.d/lightdm includes linuxmuster-session instead of common-session
-printr('Replacing common-session in pam.d/lightdm if necessary ...')
-os.system('sed -i "s/.*common-session.*/@include linuxmuster-session/" /etc/pam.d/lightdm')
+#printr('Replacing common-session in pam.d/lightdm if necessary ...')
+#os.system('sed -i "s/.*common-session.*/@include linuxmuster-session/" /etc/pam.d/lightdm')
 
 # enable necessary pam modules
 printr('Updating pam configuration ... ')
-os.system('pam-auth-update --package --enable libpam-mount mkhomedir pwquality sss --force')
-os.system('pam-auth-update --package --remove krb5 --force')
+os.system('pam-auth-update --package --enable libpam-mount pwquality sss --force')
+## mkhomedir was injected in template not using pam-auth-update
+os.system('pam-auth-update --package --remove krb5 mkhomedir --force')
 
 # path for sysvol share
 printr('Creating sysvol folder ... ')
