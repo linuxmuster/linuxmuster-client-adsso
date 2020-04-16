@@ -28,7 +28,7 @@ host "$servername.$ad_domain" | grep -q "$serverip" && ad_connected="yes"
 run_hook
 
 # finally source serverside login script if present
-loginscript="$ad_sysvol_path/scripts/$SCHOOL/linux/login.script"
+loginscript="$ad_sysvol_path/scripts/$SCHOOL/lmn/linux/login.script"
 if [ -e "$loginscript" ]; then
   echo "Sourcing login script $loginscript ..."
   echo

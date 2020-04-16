@@ -36,7 +36,7 @@ function run_hook() {
 run_hook
 
 # finally source serverside login script if present
-loginscript="$ad_sysvol_path/scripts/$SCHOOL/linux/login-as-root.script"
+loginscript="$ad_sysvol_path/scripts/$SCHOOL/lmn/linux/login-as-root.script"
 if [ -e "$loginscript" ]; then
   echo "Sourcing login script $loginscript ..."
   echo
