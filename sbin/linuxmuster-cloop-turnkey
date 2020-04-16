@@ -5,16 +5,24 @@
 dpkg-reconfigure openssh-server
 
 # Setting linuxadmin password
-echo "Please change the password for the user linuxmadmin"
-read -p "Press Enter to continue." -n 1 -r
+if [ -e "/.linbo" ]; then
+    echo "Ich vermute, dass das generische Postsyncskript verwendet wurde "
+    echo "und für linuxadmin ein Passwort gesetzt wurde. "
+    echo "Das Setzen des Passwortes für den Benutzer kann daher übersprungen werden."
+fi
+read -p "Möchtest du ein neues Passwort für linuxadmin vergeben? [j/N] "
+read -p "Bitte vergib ein neues Passwort für den Benutzer linuxadmin." -n 1 -r
 echo
-passwd linuxadmin
+if [[ $REPLY =~ ^[YyJj]$ ]]
+then
+    passwd linuxadmin
+fi
 
 # Dist Upgrade
-echo "Now it is strongly advised to update your system, before"
-echo "you join your domain an create a new image."
+echo "Wir empfehlen dringend, jetzt das System zu updaten, dann"
+echo "der Domäne beizutreten und danach ein neues Image zu erstellen."
 echo
-read -p "Make a dist-upgrade [y/n] ?"
+read -p "Upgrade durchführen [j/N] ?"
 echo   
 if [[ $REPLY =~ ^[YyJj]$ ]]
 then
