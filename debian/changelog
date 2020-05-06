@@ -1,5 +1,6 @@
-linuxmuster-client-adsso (0.9-2ubuntu0) bionic; urgency=medium
+linuxmuster-client-adsso (0.9-2ubuntu0) focal; urgency=medium
 
+  * create focal package
   * use common-session from templates for better position of mkhomedir
   * not use linuxmuster-session, keep it for later
   * optional passwd action, if user already set password using postsync
