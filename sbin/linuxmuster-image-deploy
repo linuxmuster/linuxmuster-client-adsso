@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo "linuxmuster-image-deploy: Dieses Skript bereitet ein Image zum Deployment vor."
+echo "Es werden für dieses Schule sensitive Domänendaten gelöscht."
+echo "Wenn dieses Skript ausgeführt wurde, kann man sich in diesem Image nicht mehr an der Domäne anmelden, bevor nicht linuxmuster-cloop-turnkey bzw. linuxmuster-client-adsso-setup ausgeführt wurden."
+read -p "Möchtest du wirklich dieses Image vorbereiten, dass es veröffentlicht wird? [j/N] "
+echo
+if [[ $REPLY =~ ^[YyJj]$ ]]; then	
+    
+    linuxmuster-image-prep
+	
+    ## SSS stuff
+    # this might break login for the image producer
+    # deletes all current cachefiles and domain-related files
+    systemctl stop sssd
+    rm -rf /var/lib/samba/private/tls/*
+    rm -rf /var/log/sssd/*
+    rm -rf /var/lib/sss/pubconf/krb5.include.d/domain_realm*
+    rm -rf /var/lib/sss/db/cache_*
+    rm -rf /var/lib/sss/db/ccache_*
+    rm -rf /var/lib/sss/db/timestamps_*
+    rm -rf /var/lib/sss/pipes/private/*
+    
+    ## these will be created by linuxmuster-client-adsso
+    #/etc/sssd/sssd.conf
+    #rm -rf /etc/krb5.keytab
+    #rm -rf /etc/samba/smb.conf
+    #rm -rf /etc/krb5.conf
+    #rm -rf /etc/chrony/chrony.conf
+    #rm -rf /etc/hosts
+fi
+

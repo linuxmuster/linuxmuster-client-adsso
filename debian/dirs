@@ -1,5 +1,7 @@
 usr/share/linuxmuster-client-adsso/templates/
+var/lib/linuxmuster-image-prep.d/
 etc/linuxmuster-client/onboot.d/
 etc/linuxmuster-client/login.d/
+etc/linuxmuster-client/logout.d/
 etc/linuxmuster-client/login-as-root.d/
 
