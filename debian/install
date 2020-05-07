@@ -1,4 +1,6 @@
 debian/*.service  etc/systemd/system/
+debian/lightdm/override.conf etc/systemd/system/lightdm.service.d
+debian/sssd/override.conf etc/systemd/system/sssd.service.d
 sbin/*		        usr/sbin/
 etc/*		        etc/linuxmuster-client/
 templates/*		    usr/share/linuxmuster-client-adsso/templates/
