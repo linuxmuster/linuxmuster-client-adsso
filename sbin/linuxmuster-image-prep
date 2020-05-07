@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+# devel@zukuul.de
+# 20200507
+# image prep script 
+#
+
+# read setup values
+source /etc/linuxmuster-client/scripts/readvars.sh || exit 1
+ad_sysvol_path="/var/lib/samba/sysvol/$ad_domain"
+
+logger -t linuxmuster-client "linuxmuster-image-prep executed"
+
+image_prepdir="/var/lib/linuxmuster-image-prep.d"
+# hook function
+function run_hook() {
+    # source login hookdir
+    if ls "$image_prepdir"/*.sh &> /dev/null; then
+      for i in "$image_prepdir"/*.sh; do
+        echo "Executing $i ..."
+	source "$i"
+      done
+    fi
+}
+
+# test ad connection
+host "$servername.$ad_domain" | grep -q "$serverip" && ad_connected="yes"
+
+### need to put those in the hookdir later:
+# update
+#unset http_proxy https_proxy
+#apt update
+#apt full-upgrade -y
+
+# clean up apt
+apt autoremove -y
+apt autoclean
+apt clean
+
+# var lists löschen
+rm /var/lib/apt/lists/*  || true
+
+# java reste löschen, falls vorhanden
+rm /var/cache/oracle-jdk*-installer/jdk*.tar.gz || true
+
+# journaldaten löschen
+journalctl --flush --rotate
+journalctl  --vacuum-time=1s
+
+# linuxadmin cleanup
+rm -rf /home/linuxadmin/.cache/mozilla
+
+users=$(who | grep -v ^root)
+if [ -n "$users" ]; then
+    echo "Hey, da ist noch jemand eingeloggt, bitte ausloggen und $0 neu starten!"
+    echo $user
+    exit 1
+fi
+
+# home/cache
+rm -rf /home/cache/*
+
+# run the scripts from the hookdir
+run_hook
+
+exit 0
+
