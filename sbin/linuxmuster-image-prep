@@ -58,7 +58,7 @@ if [ -n "$users" ]; then
 fi
 
 # home/cache
-rm -rf /home/cache/*
+rm -rf /home/cache_*
 
 # run the scripts from the hookdir
 run_hook
